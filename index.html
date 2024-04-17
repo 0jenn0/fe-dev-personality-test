@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>프론트엔드 개발자 성격 유형 테스트</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .question {
+        margin-bottom: 20px;
+      }
+      button {
+        display: block;
+        margin: 20px auto;
+      }
+      #result {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>프론트엔드 개발자 성격 유형 테스트</h1>
+    <form id="test-form">
+      <button type="submit">제출</button>
+    </form>
+    <div id="result"></div>
+    <script>
+      const form = document.getElementById("test-form");
+      const result = document.getElementById("result");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const scores = [];
+        for (let i = 1; i <= 10; i++) {
+          scores.push(parseInt(formData.get(`q${i}`)));
+        }
+
+        const tScore =
+          scores[0] + scores[2] + scores[4] + scores[6] + scores[9];
+        const fScore =
+          5 -
+          scores[0] +
+          (5 - scores[2]) +
+          (5 - scores[4]) +
+          (5 - scores[6]) +
+          (5 - scores[9]);
+        const dScore = scores[1] + scores[3] + scores[5] + scores[7];
+        const fScore2 =
+          5 - scores[1] + (5 - scores[3]) + (5 - scores[5]) + (5 - scores[7]);
+
+        const tPercentage = Math.round((tScore / (tScore + fScore)) * 100);
+        const fPercentage = 100 - tPercentage;
+        const dPercentage = Math.round((dScore / (dScore + fScore2)) * 100);
+        const fPercentage2 = 100 - dPercentage;
+
+        result.innerHTML = `
+                당신의 성격 유형은...<br>
+                타입 중시형(T): ${tPercentage}%, 자유로운 개발형(F): ${fPercentage}%<br>
+                디자인 감각형(D): ${dPercentage}%, 기능 중시형(F): ${fPercentage2}%
+            `;
+      });
+    </script>
+  </body>
+</html>
